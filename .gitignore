@@ -59,3 +59,4 @@ yarn-error.log*
 
 deploy/package/output/*
 deploy/package/*.tar.gz
+.idea**

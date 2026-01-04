@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir output
 
+rm -rf output
 export API_HOST=scan.eight-art.com
 export API_PORT=443
 export API_PROTOCOL=https
@@ -37,7 +38,7 @@ envsubst < .env.template > ./output/.env
 
 export IMAGE_NAME=blockscout-frontend
 export VERSION=1.0.0
-docker build --platform linux/amd64 --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t "$IMAGE_NAME:$VERSION" ../../
+DOCKER_BUILDKIT=1 docker build --platform linux/amd64 --build-arg GIT_COMMIT_SHA=$(git rev-parse --short HEAD) --build-arg GIT_TAG=$(git describe --tags --abbrev=0) -t "$IMAGE_NAME:$VERSION" ../../
 docker save -o ./output/"${IMAGE_NAME}".tar "$IMAGE_NAME"
 
 envsubst < start.sh.template > ./output/start.sh
